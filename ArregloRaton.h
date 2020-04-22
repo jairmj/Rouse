@@ -1,4 +1,3 @@
-
 #pragma once
 #include "raton.h"
 class ArregloRaton

@@ -16,11 +16,11 @@ void ArregloRaton::MoverTodos(int quesoX) {
 	int velocidad;
 	srand(time(NULL));
 	for (int i = 0; i < cantidad + 1; i++) {
-		if ((Ratones[i].retornar_posx()) < quesoX - 21 && status) {//Si está a la izquierda del queso
+		if ((Ratones[i].retornar_posx()) < quesoX - 21 && status) {//Si estï¿½ a la izquierda del queso
 			velocidad = rand() % 2 + 1;
 			Ratones[i].Mover(velocidad, false); //Hago que se mueva una cantidad aleatoria de espacios
 		}
-		else if (status) {//Un ratón ha llegado a la meta
+		else if (status) {//Un ratï¿½n ha llegado a la meta
 			status = false; //Paro la carrera
 			for (int m = 0; m < cantidad + 1; m++) {//Borro los ratones que no ganaron
 				if (m != i) {
@@ -29,7 +29,7 @@ void ArregloRaton::MoverTodos(int quesoX) {
 			}
 			System::Console::SetCursorPosition(78, 38);
 			std::cout << "Pulse 'r' para reiniciar";
-			for (;;) {//Baile de celebración del ganador
+			for (;;) {//Baile de celebraciï¿½n del ganador
 				if (_kbhit()) { nuevo = true; break; }
 				int aleatorio = rand() % 3 + 1;
 				if (aleatorio == 1) { System::Console::ForegroundColor = System::ConsoleColor::Cyan; }

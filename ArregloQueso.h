@@ -1,4 +1,3 @@
-
 #pragma once
 #include "queso.h"
 class ArregloQueso
