@@ -13,6 +13,8 @@ using namespace System;
 using namespace std;
 
 int espaciado = 7;
+
+
 ArregloRaton* InicializarDatos_Ratones() {
     raton* mouse1 = new raton();
 
@@ -77,7 +79,7 @@ int PantallaSeleccion() {
     Console::SetCursorPosition(0, 0);
     Console::WindowHeight = 40;
     Console::WindowWidth = 180;
-    for (int fila = 22; fila < 34; fila++) {
+    for (int fila = 22; fila < 34; fila++) {//Solo modifico donde está el nombre
         for (int columna = 62; columna < 127; columna++) {
             Console::SetCursorPosition(columna, fila);
             if (MapaInicio[fila][columna] == 0) Console::ForegroundColor = ConsoleColor::Green;
@@ -135,8 +137,6 @@ int PantallaSeleccion() {
 }
 
 int PantallaInicio() {
-    Console::CursorVisible = false;
-    Console::SetWindowSize(180, 40);
     for (int fila = 0; fila < 40; fila++) {
         for (int columna = 0; columna <180; columna++) {
             Console::SetCursorPosition(columna, fila);
@@ -164,23 +164,55 @@ int PantallaInicio() {
     }
 }
 
+int SeleccionRaton(ArregloRaton* Ratones) {
+    Console::BackgroundColor = ConsoleColor::Black;
+    system("cls");
+    //Dando posiciones a los ratones para mostrarlos:
+    for (int i = 0; i < 5; i++) {
+        Ratones->RetornarArreglo()[i].cambiar_posx(20+30*(i));
+        Ratones->RetornarArreglo()[i].cambiar_posy(1);
+        Ratones->RetornarArreglo()[i].cambiar_color(i);
+    }
+
+    Ratones->DibujarTodos();
+
+    //Escribo Características:
+    Console::ForegroundColor = ConsoleColor::White;
+    Console::SetCursorPosition(24, 0);
+    cout << "RATATOUI";
+    Console::SetCursorPosition(56, 0);
+    cout << "BOLT";
+    Console::SetCursorPosition(87, 0);
+    cout << "MISHU";
+    Console::SetCursorPosition(114, 0);
+    cout << "VELOCITO";
+    Console::SetCursorPosition(147, 0);
+    cout << "C0CK";
+    
+    for (;;) {
+
+    }
+
+    return 1;
+}
+
 bool Game() {
 
-    int Jugadores = PantallaInicio();
+    //int Jugadores = PantallaInicio();
     srand(time(NULL));
 
-    Console::CursorVisible = false;
-    Console::SetWindowSize(180, 40);
 
-    //Inicializo el arreglo con los ratones
+    //Inicializo el arreglo con los ratones y hago que el jugador seleccione uno
     ArregloRaton* Ratones = new ArregloRaton();
+
+    int Seleccion = SeleccionRaton(Ratones);
+
     Ratones = InicializarDatos_Ratones();
-
-
     //Inicializo el arreglo con los quesos
     ArregloQueso* Quesos = new ArregloQueso();
     Quesos = InicializarDatos_Quesos();
 
+    for(;;)
     //Dibujo los quesos y ratones
     Quesos->DibujarTodos();
     Ratones->DibujarTodos();

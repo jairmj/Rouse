@@ -2,8 +2,9 @@
 #include "Funciones_Y_Globales.h"
 int main()
 {
-    /*bool resultado = Game();*/
-    int aaa = PantallaInicio();
+    Console::CursorVisible = false;
+    Console::SetWindowSize(180, 40);
+    bool resultado = Game();
     for (;;) {
 
     }

@@ -2,19 +2,28 @@
 class raton
 {
 private:
-	int posx, posy, velocidad;
+	int posx, posy, color;
+	/*
+							Colores:
+-------------------------------------------------------------------------------
+		0: Amarillo
+		1: Rojo
+		2: Cyan
+		3: Azul
+		4: Verde
+	*/
 
 	public:
 		raton();
 		~raton();
 	
 		void cambiar_posx(int nuevo);
-		void cambiar_velocidad(int nuevo);
+		void cambiar_color(int nuevo);
 		void cambiar_posy(int nuevo);
 
 		int retornar_posx();
 		int retornar_posy();
-		int retornar_Velocidad();
+		int retornar_color();
 
 		void Dibujar();
 		void Borrar();

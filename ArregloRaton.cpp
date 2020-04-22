@@ -4,6 +4,10 @@
 #include <iostream>
 #include <conio.h>
 
+using namespace System;
+using namespace std;
+
+
 ArregloRaton::ArregloRaton() {}
 ArregloRaton::~ArregloRaton() {}
 
@@ -54,12 +58,23 @@ void ArregloRaton::MoverTodos(int quesoX) {
 
 void ArregloRaton::DibujarTodos() {
 	for (int i = 0; i < 5; i++) {
+		if (Ratones[i].retornar_color() == 0) { Console::ForegroundColor = ConsoleColor::Yellow; }
+		if (Ratones[i].retornar_color() == 1) { Console::ForegroundColor = ConsoleColor::DarkRed; }
+		if (Ratones[i].retornar_color() == 2) { Console::ForegroundColor = ConsoleColor::Cyan; }
+		if (Ratones[i].retornar_color() == 3) { Console::ForegroundColor = ConsoleColor::Blue; }
+		if (Ratones[i].retornar_color() == 4) { Console::ForegroundColor = ConsoleColor::Green; }
+
 		Ratones[i].Dibujar();
 	}
 }
+
 
 void ArregloRaton::BorrarTodos() {
 	for (int i = 0; i < 5; i++) {
 		Ratones[i].Borrar();
 	}
+}
+
+raton* ArregloRaton::RetornarArreglo() {
+	return Ratones;
 }

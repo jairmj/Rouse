@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "raton.h"
 #include <iostream>
+
 using namespace std;
 using namespace System;
 
@@ -9,12 +10,12 @@ raton::~raton() {};
 
 
 void raton::cambiar_posx(int nuevo) { posx = nuevo; };
-void raton::cambiar_velocidad(int nuevo) { velocidad = nuevo; };
+void raton::cambiar_color(int nuevo) { color = nuevo; };
 void raton::cambiar_posy(int nuevo) { posy = nuevo; };
 
 int raton::retornar_posx() { return posx; }
 int raton::retornar_posy() { return posy; }
-int raton::retornar_Velocidad() { return velocidad; }
+int raton::retornar_color() { return color; }
 
 void raton::Dibujar() {
 	Console::SetCursorPosition(posx, posy);
@@ -23,6 +24,7 @@ void raton::Dibujar() {
 	cout << "(__( )_._( )_`_>";
 	Console::SetCursorPosition(posx, posy + 2);
 	cout << "     `~~'  `~'";
+	
 
 }
 void raton::Borrar() {

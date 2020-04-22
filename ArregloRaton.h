@@ -18,4 +18,5 @@ public:
 	void MoverTodos(int quesoX);
 	void DibujarTodos();
 	void BorrarTodos();
+	raton* RetornarArreglo();
 };
