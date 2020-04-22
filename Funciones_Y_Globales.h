@@ -72,6 +72,68 @@ ArregloQueso* InicializarDatos_Quesos() {
 
 }
 
+int PantallaSeleccion() {
+    //Borra el nombre del juego y el mensaje
+    Console::SetCursorPosition(0, 0);
+    Console::WindowHeight = 40;
+    Console::WindowWidth = 180;
+    for (int fila = 22; fila < 34; fila++) {
+        for (int columna = 62; columna < 127; columna++) {
+            Console::SetCursorPosition(columna, fila);
+            if (MapaInicio[fila][columna] == 0) Console::ForegroundColor = ConsoleColor::Green;
+            if (MapaInicio[fila][columna] == 2) Console::ForegroundColor = ConsoleColor::Green;
+            if (MapaInicio[fila][columna] == 7) Console::ForegroundColor = ConsoleColor::Green;
+            cout << (char)219;
+        }
+    }
+    Console::SetCursorPosition(63, 36);
+    Console::ForegroundColor = ConsoleColor::Black;
+    cout << "Use las flechas para elegir y enter para seleccionar";
+
+    Console::SetCursorPosition(83, 22);
+    Console::ForegroundColor = ConsoleColor::Black;
+    cout << (char)219 << " 1 Jugador";
+    Console::SetCursorPosition(83, 24);
+    cout << " " << " 2 Jugadores";
+
+    int Jugadores;
+    for (;;) {
+        if (_kbhit) {
+            char tecla = _getch();
+            if (tecla == 72) {
+                Jugadores = 1;
+
+                Console::SetCursorPosition(83, 22);
+                Console::ForegroundColor = ConsoleColor::Black;
+                cout << (char)219;
+
+                Console::SetCursorPosition(83, 24);
+                Console::ForegroundColor = ConsoleColor::Green;
+                cout << (char)219;
+            }
+            if (tecla == 80) {
+                Jugadores = 2;
+
+                Console::SetCursorPosition(83, 22);
+                Console::ForegroundColor = ConsoleColor::Green;
+                cout << (char)219;
+
+                Console::SetCursorPosition(83, 24);
+                Console::ForegroundColor = ConsoleColor::Black;
+                cout << (char)219;
+            }
+            if (tecla == 13) {
+                return Jugadores;
+            }
+        }
+    
+    }
+
+
+
+    return 0;
+}
+
 int PantallaInicio() {
     Console::CursorVisible = false;
     Console::SetWindowSize(180, 40);
@@ -93,7 +155,13 @@ int PantallaInicio() {
     Console::ForegroundColor = ConsoleColor::DarkBlue;
     Console::BackgroundColor = ConsoleColor::Green;
     cout << "Pulse cualquier tecla para continuar";
-    return 0;
+    for (;;) {
+        if (_kbhit()) {
+            int jugadores = PantallaSeleccion();
+            return jugadores;
+        }
+
+    }
 }
 
 bool Game() {

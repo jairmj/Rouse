@@ -4,7 +4,9 @@ int main()
 {
     /*bool resultado = Game();*/
     int aaa = PantallaInicio();
-    _getch();
+    for (;;) {
+
+    }
     return 0;
 }
 
