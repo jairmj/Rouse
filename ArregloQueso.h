@@ -13,6 +13,7 @@ public:
 
 	void agregarQueso(queso* nuevo);
 	void borrarQueso(int indice);
+	queso* RetornarArreglo();
 
 	void DibujarTodos();
 	void BorrarTodos();

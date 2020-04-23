@@ -2,6 +2,7 @@
 #include <iostream>
 #include <conio.h>
 #include <ctime>
+#include <string.h>
 
 #include "raton.h"
 #include "ArregloRaton.h"
@@ -15,63 +16,32 @@ using namespace std;
 int espaciado = 7;
 
 
-ArregloRaton* InicializarDatos_Ratones() {
-    raton* mouse1 = new raton();
+int PantallaInicio() {
+    for (int fila = 0; fila < 40; fila++) {
+        for (int columna = 0; columna < 180; columna++) {
+            Console::SetCursorPosition(columna, fila);
+            if (MapaInicio[fila][columna] == 0) Console::ForegroundColor = ConsoleColor::Blue;
+            if (MapaInicio[fila][columna] == 1) Console::ForegroundColor = ConsoleColor::White;
+            if (MapaInicio[fila][columna] == 2) Console::ForegroundColor = ConsoleColor::Green;
+            if (MapaInicio[fila][columna] == 3) Console::ForegroundColor = ConsoleColor::DarkGray;
+            if (MapaInicio[fila][columna] == 4) Console::ForegroundColor = ConsoleColor::Black;
+            if (MapaInicio[fila][columna] == 5) Console::ForegroundColor = ConsoleColor::Gray;
+            if (MapaInicio[fila][columna] == 6) Console::ForegroundColor = ConsoleColor::DarkCyan;
+            if (MapaInicio[fila][columna] == 7) Console::ForegroundColor = ConsoleColor::DarkYellow;
+            cout << (char)219;
+        }
+    }
+    Console::SetCursorPosition(77, 36);
+    Console::ForegroundColor = ConsoleColor::DarkBlue;
+    Console::BackgroundColor = ConsoleColor::Green;
+    cout << "Pulse cualquier tecla para continuar";
+    for (;;) {
+        if (_kbhit()) {
+            int jugadores = PantallaSeleccion();
+            return jugadores;
+        }
 
-    mouse1->cambiar_posx(0);
-    mouse1->cambiar_posy(4);
-
-    raton* mouse2 = new raton();
-
-    mouse2->cambiar_posx(0);
-    mouse2->cambiar_posy(mouse1->retornar_posy() + espaciado);
-
-    raton* mouse3 = new raton();
-
-    mouse3->cambiar_posx(0);
-    mouse3->cambiar_posy(mouse2->retornar_posy() + espaciado);
-
-    raton* mouse4 = new raton();
-
-    mouse4->cambiar_posx(0);
-    mouse4->cambiar_posy(mouse3->retornar_posy() + espaciado);
-
-    raton* mouse5 = new raton();
-
-    mouse5->cambiar_posx(0);
-    mouse5->cambiar_posy(mouse4->retornar_posy() + espaciado);//4 mas abajo de donde termina el raton
-
-    ArregloRaton* Ratones = new ArregloRaton();
-    Ratones->agregarRaton(mouse1);
-    Ratones->agregarRaton(mouse2);
-    Ratones->agregarRaton(mouse3);
-    Ratones->agregarRaton(mouse4);
-    Ratones->agregarRaton(mouse5);
-
-    return Ratones;
-}
-
-ArregloQueso* InicializarDatos_Quesos() {
-    queso* queso1 = new queso();
-    queso1->cambiar_posy(3);
-    queso* queso2 = new queso();
-    queso2->cambiar_posy(queso1->retornar_posy() + espaciado);
-    queso* queso3 = new queso();
-    queso3->cambiar_posy(queso2->retornar_posy() + espaciado);
-    queso* queso4 = new queso();
-    queso4->cambiar_posy(queso3->retornar_posy() + espaciado);
-    queso* queso5 = new queso();
-    queso5->cambiar_posy(queso4->retornar_posy() + espaciado);
-
-    ArregloQueso* Quesos = new ArregloQueso();
-    Quesos->agregarQueso(queso1);
-    Quesos->agregarQueso(queso2);
-    Quesos->agregarQueso(queso3);
-    Quesos->agregarQueso(queso4);
-    Quesos->agregarQueso(queso5);
-
-    return Quesos;
-
+    }
 }
 
 int PantallaSeleccion() {
@@ -136,32 +106,75 @@ int PantallaSeleccion() {
     return 0;
 }
 
-int PantallaInicio() {
-    for (int fila = 0; fila < 40; fila++) {
-        for (int columna = 0; columna <180; columna++) {
-            Console::SetCursorPosition(columna, fila);
-            if (MapaInicio[fila][columna] == 0) Console::ForegroundColor = ConsoleColor::Blue;
-            if (MapaInicio[fila][columna] == 1) Console::ForegroundColor = ConsoleColor::White;
-            if (MapaInicio[fila][columna] == 2) Console::ForegroundColor = ConsoleColor::Green;
-            if (MapaInicio[fila][columna] == 3) Console::ForegroundColor = ConsoleColor::DarkGray;
-            if (MapaInicio[fila][columna] == 4) Console::ForegroundColor = ConsoleColor::Black;
-            if (MapaInicio[fila][columna] == 5) Console::ForegroundColor = ConsoleColor::Gray;
-            if (MapaInicio[fila][columna] == 6) Console::ForegroundColor = ConsoleColor::DarkCyan;
-            if (MapaInicio[fila][columna] == 7) Console::ForegroundColor = ConsoleColor::DarkYellow;
-            cout << (char)219;
-        }
-    }
-    Console::SetCursorPosition(77, 36);
-    Console::ForegroundColor = ConsoleColor::DarkBlue;
-    Console::BackgroundColor = ConsoleColor::Green;
-    cout << "Pulse cualquier tecla para continuar";
-    for (;;) {
-        if (_kbhit()) {
-            int jugadores = PantallaSeleccion();
-            return jugadores;
-        }
+ArregloRaton* InicializarDatos_Ratones() {
 
+    //Creo ratones
+    raton* mouse1 = new raton();
+    raton* mouse2 = new raton();
+    raton* mouse3 = new raton();
+    raton* mouse4 = new raton();
+    raton* mouse5 = new raton();
+
+    //Establezco sus velocidades
+    for (int i =0; i < 6; i++) {
+        mouse1->agregar_velocidad(i);
     }
+    for (int i = 2; i <= 4; i++) {
+        mouse2->agregar_velocidad(i);
+    }
+    for (int i = 1; i <= 3; i++) {
+        mouse3->agregar_velocidad(i);
+    }
+    for (int i = 1; i <= 4; i++) {
+        mouse4->agregar_velocidad(i);
+    }
+    for (int i = -1; i <= 6; i++) {
+        mouse5->agregar_velocidad(i);
+    }
+         
+    //Los agrego a un arreglo
+    ArregloRaton* Ratones = new ArregloRaton();
+    Ratones->agregarRaton(mouse1);
+    Ratones->agregarRaton(mouse2);
+    Ratones->agregarRaton(mouse3);
+    Ratones->agregarRaton(mouse4);
+    Ratones->agregarRaton(mouse5);
+
+    //Establezco posiciones y colores
+    for (int i = 0; i < 5; i++) {
+        Ratones->RetornarArreglo()[i].cambiar_posx(0);
+        if(i==0) Ratones->RetornarArreglo()[i].cambiar_posy(4);
+        else {
+            Ratones->RetornarArreglo()[i].cambiar_posy(Ratones->RetornarArreglo()[i - 1].retornar_posy() + espaciado);
+        }
+        Ratones->RetornarArreglo()[i].cambiar_color(i);
+    }
+    return Ratones;
+}
+
+ArregloQueso* InicializarDatos_Quesos() {
+    queso* queso1 = new queso();
+    queso* queso2 = new queso();
+    queso* queso3 = new queso();
+    queso* queso4 = new queso();
+    queso* queso5 = new queso();
+
+    ArregloQueso* Quesos = new ArregloQueso();
+    Quesos->agregarQueso(queso1);
+    Quesos->agregarQueso(queso2);
+    Quesos->agregarQueso(queso3);
+    Quesos->agregarQueso(queso4);
+    Quesos->agregarQueso(queso5);
+
+    for (int i = 0; i < 5; i++) {
+        if (i == 0) Quesos->RetornarArreglo()[i].cambiar_posy(3);
+        else {
+            Quesos->RetornarArreglo()[i].cambiar_posy(Quesos->RetornarArreglo()[i - 1].retornar_posy() + espaciado);
+        }
+    }
+
+    return Quesos;
+
 }
 
 int SeleccionRaton(ArregloRaton* Ratones) {
@@ -171,24 +184,26 @@ int SeleccionRaton(ArregloRaton* Ratones) {
     for (int i = 0; i < 5; i++) {
         Ratones->RetornarArreglo()[i].cambiar_posx(20+30*(i));
         Ratones->RetornarArreglo()[i].cambiar_posy(1);
-        Ratones->RetornarArreglo()[i].cambiar_color(i);
     }
 
     Ratones->DibujarTodos();
 
-    //Escribo Características:
+    //Escribo Nombres y Características:
     Console::ForegroundColor = ConsoleColor::White;
-    Console::SetCursorPosition(24, 0);
-    cout << "RATATOUI";
-    Console::SetCursorPosition(56, 0);
-    cout << "BOLT";
-    Console::SetCursorPosition(87, 0);
-    cout << "MISHU";
-    Console::SetCursorPosition(114, 0);
-    cout << "VELOCITO";
-    Console::SetCursorPosition(147, 0);
-    cout << "C0CK";
-    
+    Console::SetCursorPosition(1, 8);
+    cout << "Velocidad:";
+    string Nombres[5] = { "RATATOUI", "BOLT", "MISHU", "VELOCITO", "C0CK" };
+    int PosicionesNombres[5] = { 24, 56, 87, 114, 147 };
+
+    for (int i = 0; i < 5; i++) {
+        //Nombres
+        Console::SetCursorPosition(PosicionesNombres[i], 0);
+        cout << Nombres[i];
+        //Características
+        Console::SetCursorPosition(30 * (i+1) - 5, 8);
+        cout << "["<< Ratones->RetornarArreglo()[i].retornar_arreglo()[0] <<"-"<< Ratones->RetornarArreglo()[i].retornar_arreglo()[Ratones->RetornarArreglo()[i].retornar_cantidad() - 1] <<"]";
+    }
+
     for (;;) {
 
     }
@@ -196,23 +211,22 @@ int SeleccionRaton(ArregloRaton* Ratones) {
     return 1;
 }
 
-bool Game() {
 
-    //int Jugadores = PantallaInicio();
+
+
+bool Game() {
+    //Consigo la cantidad de jugadores
+    int Jugadores = PantallaInicio();
     srand(time(NULL));
 
+    //Inicializo los arreglos con ratones y quesos
+    ArregloRaton* Ratones = InicializarDatos_Ratones();
+    ArregloQueso* Quesos = InicializarDatos_Quesos();
 
-    //Inicializo el arreglo con los ratones y hago que el jugador seleccione uno
-    ArregloRaton* Ratones = new ArregloRaton();
-
+    //hago que el jugador seleccione un raton
     int Seleccion = SeleccionRaton(Ratones);
 
-    Ratones = InicializarDatos_Ratones();
-    //Inicializo el arreglo con los quesos
-    ArregloQueso* Quesos = new ArregloQueso();
-    Quesos = InicializarDatos_Quesos();
 
-    for(;;)
     //Dibujo los quesos y ratones
     Quesos->DibujarTodos();
     Ratones->DibujarTodos();

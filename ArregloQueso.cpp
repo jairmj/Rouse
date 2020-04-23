@@ -19,3 +19,4 @@ void ArregloQueso::BorrarTodos() {
 		Quesos[i].Borrar();
 	}
 }
+queso* ArregloQueso::RetornarArreglo() { return Quesos; } 
