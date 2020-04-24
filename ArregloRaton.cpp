@@ -16,7 +16,7 @@ void ArregloRaton::agregarRaton(raton* nuevo) { Ratones[cantidad + 1] = *nuevo; 
 void ArregloRaton::borrarRaton(int indice) { Ratones[indice].~raton(); }
 
 
-void ArregloRaton::MoverTodos(int quesoX) {
+int ArregloRaton::MoverTodos(int quesoX) {//Retorna el ganador
 	int velocidad;
 	srand(time(NULL));
 	for (int i = 0; i < cantidad + 1; i++) {
@@ -25,33 +25,24 @@ void ArregloRaton::MoverTodos(int quesoX) {
 			Ratones[i].Mover(velocidad, false); //Hago que se mueva una cantidad aleatoria de espacios
 		}
 		else if (status) {//Un rat�n ha llegado a la meta
-			status = false; //Paro la carrera
-			for (int m = 0; m < cantidad + 1; m++) {//Borro los ratones que no ganaron
+			//Paro la carrera
+			status = false;
+
+			//Indico que hay un ganador
+			nuevo = true;
+
+			//Borro los ratones que no ganaron
+			for (int m = 0; m < cantidad + 1; m++) {
 				if (m != i) {
 					Ratones[m].Borrar();
 				}
+
 			}
 			System::Console::SetCursorPosition(78, 38);
 			std::cout << "Pulse 'r' para reiniciar";
-			for (;;) {//Baile de celebraci�n del ganador
-				if (_kbhit()) { nuevo = true; break; }
-				int aleatorio = rand() % 3 + 1;
-				if (aleatorio == 1) { System::Console::ForegroundColor = System::ConsoleColor::Cyan; }
-				else if (aleatorio == 2) { System::Console::ForegroundColor = System::ConsoleColor::Green; }
-				else if (aleatorio == 3) { System::Console::ForegroundColor = System::ConsoleColor::DarkMagenta; }
-				System::Console::SetCursorPosition(70, Ratones[i].retornar_posy() + 1);
-				std::cout << "WINNER!";
 
-				int aleatorio1 = rand() % 3 + 1;
-				if (aleatorio1 == 1) { System::Console::ForegroundColor = System::ConsoleColor::Cyan; }
-				else if (aleatorio1 == 2) { System::Console::ForegroundColor = System::ConsoleColor::Green; }
-				else if (aleatorio1 == 3) { System::Console::ForegroundColor = System::ConsoleColor::DarkMagenta; }
-
-				int aleatorio2 = rand() % 1;
-				if (aleatorio == 1) { Ratones[i].Mover(1, true); }
-				else if (aleatorio == 2) { Ratones[i].Mover(-1, true); }
-				_sleep(100);
-			}
+			//Retorno la rata que ha ganado
+			return i;			
 		}
 	}
 }

@@ -9,6 +9,7 @@ void ArregloQueso::agregarQueso(queso* nuevo) { Quesos[cantidad + 1] = *nuevo; c
 void ArregloQueso::borrarQueso(int indice) { Quesos[indice].~queso(); }
 
 void ArregloQueso::DibujarTodos() {
+	System::Console::ForegroundColor = System::ConsoleColor::Yellow;
 	for (int i = 0; i < 5; i++) {
 		Quesos[i].Dibujar();
 	}

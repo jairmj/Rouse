@@ -19,6 +19,11 @@ int raton::retornar_color() { return color; }
 int raton::retornar_cantidad() { return cantidad; }
 
 void raton::Dibujar() {
+	if (color == 0) { Console::ForegroundColor = ConsoleColor::Yellow; }
+	if (color == 1) { Console::ForegroundColor = ConsoleColor::DarkRed; }
+	if (color == 2) { Console::ForegroundColor = ConsoleColor::Cyan; }
+	if (color == 3) { Console::ForegroundColor = ConsoleColor::Blue; }
+	if (color == 4) { Console::ForegroundColor = ConsoleColor::Green; }
 	Console::SetCursorPosition(posx, posy);
 	cout << " _, .---.__c--.";
 	Console::SetCursorPosition(posx, posy + 1);
@@ -39,10 +44,7 @@ void raton::Borrar() {
 }
 void raton::Mover(int dx, bool status) {
 	Borrar();
-	if ((posx + dx + 60 >= 164 || posx + dx <= 78) && status) {
-		dx *= -1;
-	}
-	posx += dx;
+	if(posx + dx + 19 <= 180) posx += dx;
 	Dibujar();
 }
 

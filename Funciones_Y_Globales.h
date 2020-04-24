@@ -16,34 +16,6 @@ using namespace std;
 int espaciado = 7;
 
 
-int PantallaInicio() {
-    for (int fila = 0; fila < 40; fila++) {
-        for (int columna = 0; columna < 180; columna++) {
-            Console::SetCursorPosition(columna, fila);
-            if (MapaInicio[fila][columna] == 0) Console::ForegroundColor = ConsoleColor::Blue;
-            if (MapaInicio[fila][columna] == 1) Console::ForegroundColor = ConsoleColor::White;
-            if (MapaInicio[fila][columna] == 2) Console::ForegroundColor = ConsoleColor::Green;
-            if (MapaInicio[fila][columna] == 3) Console::ForegroundColor = ConsoleColor::DarkGray;
-            if (MapaInicio[fila][columna] == 4) Console::ForegroundColor = ConsoleColor::Black;
-            if (MapaInicio[fila][columna] == 5) Console::ForegroundColor = ConsoleColor::Gray;
-            if (MapaInicio[fila][columna] == 6) Console::ForegroundColor = ConsoleColor::DarkCyan;
-            if (MapaInicio[fila][columna] == 7) Console::ForegroundColor = ConsoleColor::DarkYellow;
-            cout << (char)219;
-        }
-    }
-    Console::SetCursorPosition(77, 36);
-    Console::ForegroundColor = ConsoleColor::DarkBlue;
-    Console::BackgroundColor = ConsoleColor::Green;
-    cout << "Pulse cualquier tecla para continuar";
-    for (;;) {
-        if (_kbhit()) {
-            int jugadores = PantallaSeleccion();
-            return jugadores;
-        }
-
-    }
-}
-
 int PantallaSeleccion() {
     //Borra el nombre del juego y el mensaje
     Console::SetCursorPosition(0, 0);
@@ -106,6 +78,34 @@ int PantallaSeleccion() {
     return 0;
 }
 
+int PantallaInicio() {
+    for (int fila = 0; fila < 40; fila++) {
+        for (int columna = 0; columna < 180; columna++) {
+            Console::SetCursorPosition(columna, fila);
+            if (MapaInicio[fila][columna] == 0) Console::ForegroundColor = ConsoleColor::Blue;
+            if (MapaInicio[fila][columna] == 1) Console::ForegroundColor = ConsoleColor::White;
+            if (MapaInicio[fila][columna] == 2) Console::ForegroundColor = ConsoleColor::Green;
+            if (MapaInicio[fila][columna] == 3) Console::ForegroundColor = ConsoleColor::DarkGray;
+            if (MapaInicio[fila][columna] == 4) Console::ForegroundColor = ConsoleColor::Black;
+            if (MapaInicio[fila][columna] == 5) Console::ForegroundColor = ConsoleColor::Gray;
+            if (MapaInicio[fila][columna] == 6) Console::ForegroundColor = ConsoleColor::DarkCyan;
+            if (MapaInicio[fila][columna] == 7) Console::ForegroundColor = ConsoleColor::DarkYellow;
+            cout << (char)219;
+        }
+    }
+    Console::SetCursorPosition(77, 36);
+    Console::ForegroundColor = ConsoleColor::DarkBlue;
+    Console::BackgroundColor = ConsoleColor::Green;
+    cout << "Pulse cualquier tecla para continuar";
+    for (;;) {
+        if (_kbhit()) {
+            int jugadores = PantallaSeleccion();
+            return jugadores;
+        }
+
+    }
+}
+
 ArregloRaton* InicializarDatos_Ratones() {
 
     //Creo ratones
@@ -149,6 +149,7 @@ ArregloRaton* InicializarDatos_Ratones() {
         }
         Ratones->RetornarArreglo()[i].cambiar_color(i);
     }
+
     return Ratones;
 }
 
@@ -204,11 +205,42 @@ int SeleccionRaton(ArregloRaton* Ratones) {
         cout << "["<< Ratones->RetornarArreglo()[i].retornar_arreglo()[0] <<"-"<< Ratones->RetornarArreglo()[i].retornar_arreglo()[Ratones->RetornarArreglo()[i].retornar_cantidad() - 1] <<"]";
     }
 
-    for (;;) {
+    //Hago que el jugador seleccione
+    int PosicionX_Seleccion[] = { 20, 50, 80, 110, 140 };
+    int posicionActual = 0;
+    while(1) {
+            Console::SetCursorPosition(PosicionX_Seleccion[posicionActual], 5);
+            Console::ForegroundColor = ConsoleColor::White;
+            for (int i = 0; i < 16; i++) cout << (char)219; 
+           
+            if (_kbhit()) {
+                char tecla = _getch();
+                if (tecla == 'M') {
+                    //Borro
+                    Console::SetCursorPosition(PosicionX_Seleccion[posicionActual], 5);
+                    Console::ForegroundColor = ConsoleColor::Black;
+                    for (int i = 0; i < 16; i++) cout << (char)219;
+
+                    //Muevo
+                    if (posicionActual != 4) posicionActual++;
+                    else posicionActual = 0;
+
+                }
+   
+                if (tecla == 'K') {
+                    Console::SetCursorPosition(PosicionX_Seleccion[posicionActual], 5);
+                    Console::ForegroundColor = ConsoleColor::Black;
+                    for (int i = 0; i < 16; i++) cout << (char)219;
+
+                    if (posicionActual != 0) posicionActual--;
+                    else posicionActual = 4;
+                }
+                if (tecla == 13)break;
+
+            }
 
     }
-
-    return 1;
+    return posicionActual;
 }
 
 
@@ -216,7 +248,7 @@ int SeleccionRaton(ArregloRaton* Ratones) {
 
 bool Game() {
     //Consigo la cantidad de jugadores
-    int Jugadores = PantallaInicio();
+    //int Jugadores = PantallaInicio();
     srand(time(NULL));
 
     //Inicializo los arreglos con ratones y quesos
@@ -225,29 +257,80 @@ bool Game() {
 
     //hago que el jugador seleccione un raton
     int Seleccion = SeleccionRaton(Ratones);
-
+    system("cls");
 
     //Dibujo los quesos y ratones
+    Ratones = InicializarDatos_Ratones();
     Quesos->DibujarTodos();
     Ratones->DibujarTodos();
-
-
+    char tecla;
+    int RataGanadora;
+    int posX_borrarQueso = 0;//Para hacer que la rata se coma el queso
     for (;;) {
         if (_kbhit()) {
-            char tecla = _getch();
+            tecla = _getch();
             if (tecla == 's' || tecla == 'S') {
                 Ratones->cambiar_estado(true);
             }
-            else if (tecla == 'r' || tecla == 'R' || Ratones->nuevo) {
+            else if (tecla == 'r' || tecla == 'R') {
+                system("cls");
+                Seleccion = SeleccionRaton(Ratones);
                 system("cls");
                 Quesos = InicializarDatos_Quesos();
                 Quesos->DibujarTodos();
                 Ratones = InicializarDatos_Ratones();
                 Ratones->DibujarTodos();
+                posX_borrarQueso = 0;
             }
         }
-        Ratones->MoverTodos(170);
+        RataGanadora = Ratones->MoverTodos(170);
         _sleep(100);
+        //Si hay un ganador
+        if (Ratones->nuevo) {
+            if (Seleccion == RataGanadora) {
+                Console::SetCursorPosition(66, 0); 
+                cout << "Elegiste el raton ganador!";
+            }
+            else {
+                Console::SetCursorPosition(63, 0);
+                cout << "El raton que elegiste ha perdido!";
+            }
+            for (;;) {
+                if (_kbhit()) {
+                    tecla = _getch();
+                    if (tecla == 'r' || tecla == 'R'){
+                        system("cls");
+                        Seleccion = SeleccionRaton(Ratones);
+                        system("cls");
+                        Quesos = InicializarDatos_Quesos();
+                        Quesos->DibujarTodos();
+                        Ratones = InicializarDatos_Ratones();
+                        Ratones->DibujarTodos();
+                        posX_borrarQueso = 0;
+                        break;
+                    }
+                }
+
+                //Cambio de color de Winner
+                int aleatorio = rand() % 3 + 1;
+                if (aleatorio == 1) { System::Console::ForegroundColor = System::ConsoleColor::Cyan; }
+                else if (aleatorio == 2) { System::Console::ForegroundColor = System::ConsoleColor::Green; }
+                else if (aleatorio == 3) { System::Console::ForegroundColor = System::ConsoleColor::DarkMagenta; }
+                System::Console::SetCursorPosition(70, Ratones->RetornarArreglo()[RataGanadora].retornar_posy() + 1);
+                std::cout << "WINNER!";
+
+                //Raton come queso
+                Ratones->RetornarArreglo()[RataGanadora].Mover(1, false);
+                
+                for (int i = 0; i < 4; i++) {
+                    Console::SetCursorPosition(Quesos->RetornarArreglo()[RataGanadora].retornar_posx() + posX_borrarQueso, Quesos->RetornarArreglo()[RataGanadora].retornar_posy() + i);
+                    cout << " ";
+                }
+                Ratones->RetornarArreglo()[RataGanadora].Dibujar();
+                if (posX_borrarQueso < 12) posX_borrarQueso++;
+                _sleep(1000);
+            }
+        }
     }
 
 }

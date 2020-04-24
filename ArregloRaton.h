@@ -15,7 +15,7 @@ public:
 	void cambiar_estado(bool nuevo);
 	void agregarRaton(raton* nuevo);
 	void borrarRaton(int indice);
-	void MoverTodos(int quesoX);
+	int MoverTodos(int quesoX);
 	void DibujarTodos();
 	void BorrarTodos();
 	raton* RetornarArreglo();
